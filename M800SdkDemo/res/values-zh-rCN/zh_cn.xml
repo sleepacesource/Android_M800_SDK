@@ -135,4 +135,5 @@
   <string name="select_position">选择绑定位置</string>
   <string name="left">左侧(单人)</string>
   <string name="right">右侧</string>
+  <string name="algorithm_version">算法版本</string>
 </resources>

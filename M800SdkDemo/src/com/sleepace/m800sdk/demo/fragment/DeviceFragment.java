@@ -238,7 +238,7 @@ public class DeviceFragment extends BaseFragment {
 				showTips(getString(R.string.err_not_connect_server));
 				return;
 			}
-			
+			SdkLog.log(TAG + " startRealTimeData deviceType:" + MainActivity.deviceType+",deviceId:" + MainActivity.deviceId+",num:" +  MainActivity.num);
 			m800Helper.startRealTimeData(MainActivity.deviceType, MainActivity.deviceId, MainActivity.num, new IResultCallback<RealTimeData>() {
 				@Override
 				public void onResultCallback(final CallbackData<RealTimeData> cd) {

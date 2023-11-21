@@ -275,6 +275,7 @@ containing a value of this type.
         public static final int scrollview=0x7f080011;
         public static final int tv_Body_times=0x7f080048;
         public static final int tv_Sober_proportion=0x7f080045;
+        public static final int tv_algorithm_version=0x7f08004a;
         public static final int tv_avg_breathrate=0x7f080040;
         public static final int tv_avg_heartrate=0x7f08003f;
         public static final int tv_breathrate=0x7f080016;
@@ -342,6 +343,7 @@ containing a value of this type.
         public static final int abnormal_breathing=0x7f09005e;
         public static final int actual_sleep_long=0x7f09005a;
         public static final int actual_sleep_short=0x7f09005b;
+        public static final int algorithm_version=0x7f090086;
         public static final int asleep=0x7f090020;
         public static final int asleep_point=0x7f090051;
         public static final int awake_point=0x7f090052;

@@ -19,8 +19,10 @@
 
 package com.sleepace.m800sdk.demo.view.graphview;
 
+import java.lang.reflect.Array;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.sleepace.m800sdk.demo.DemoApp;
@@ -29,6 +31,7 @@ import com.sleepace.m800sdk.demo.util.DensityUtil;
 import com.sleepace.m800sdk.demo.view.graphview.compatible.ScaleGestureDetector;
 import com.sleepace.m800sdk.demo.view.graphview.interfs.CustomLabelFormatter;
 import com.sleepace.m800sdk.demo.view.graphview.interfs.GraphViewDataInterface;
+import com.sleepace.sdk.util.SdkLog;
 import com.sleepace.sdk.util.TimeUtil;
 
 import android.content.Context;
@@ -1011,7 +1014,7 @@ abstract public class GraphView extends LinearLayout {
 	protected void drawHorizontalLabels(Context context, Canvas canvas,
 										float border, float horstart, float height, String[] horlabels,
 										float graphwidth) {
-//		LogUtil.log(TAG+" drawHorizontalLabels:" + Arrays.toString(horlabels));
+		SdkLog.log(TAG+" drawHorizontalLabels:" + Arrays.toString(horlabels));
 		// horizontal labels + lines
 		int hors = horlabels.length - 1;
 		for (int i = 0; i < horlabels.length; i++) {
@@ -1063,7 +1066,9 @@ abstract public class GraphView extends LinearLayout {
 						int tempTime = (int) Double.parseDouble(strT);
 						// int [] times=TimeUtill.int2HMInt(beginTimes+tempTime
 						// , timezone);
-						strT = TimeUtil.int2TimeHM(beginTimes + tempTime, timezone, dst_off);
+						String t = TimeUtil.int2TimeHM(beginTimes + tempTime, timezone, dst_off);
+						SdkLog.log("drawHorizontalLabels beginTimes:" + beginTimes+",strT:" + strT+",t:"+ t+",tempTime:" + tempTime+",timezone:"+ timezone);
+						strT = t;
 						/*
 						 * if(times.length==2) strT=times[0]+":"+times[1];
 						 */

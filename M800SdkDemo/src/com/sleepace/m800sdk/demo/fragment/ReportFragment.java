@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.function.LongUnaryOperator;
 
 import com.google.gson.Gson;
 import com.sleepace.sdk.interfs.IResultCallback;
@@ -118,7 +119,7 @@ public class ReportFragment extends BaseFragment {
 //			int startTime = 1594310399;
 			HashMap<String, Object> args = new HashMap<String, Object>();
 			args.put("startTime", startTime);
-			args.put("num", 5);
+			args.put("num", 1);
 			args.put("order", 0);
 			wifiDeviceSdkHelper.getSleepReport(args, new IResultCallback() {
 				@Override
@@ -136,7 +137,7 @@ public class ReportFragment extends BaseFragment {
 								Object obj = cd.getResult();
 								String str = gson.toJson(obj);
 								HistoryDataList dataList = gson.fromJson(str, HistoryDataList.class);
-								SdkLog.log(TAG+" getSleepReport dataList:" + dataList);
+								SdkLog.log(TAG+" getSleepReport analysis:" + dataList.getHistory().get(0).getAnalysis());
 								List<HistoryData> list = null;
 								if(dataList != null) {
 									list = dataList.getHistory();
@@ -209,7 +210,7 @@ public class ReportFragment extends BaseFragment {
 		
 		View view = inflater.inflate(R.layout.layout_long_report, null);
 		LinearLayout mainGraph = (LinearLayout) view.findViewById(R.id.layout_chart);
-		GraphView.GraphViewData[] mainData = getSleepGraphData(historyData.getDetail(), historyData.getAnalysis(), 60, DeviceType.DEVICE_TYPE_Z2);
+		GraphView.GraphViewData[] mainData = getSleepGraphData(historyData.getDetail(), historyData.getAnalysis(), 60, DeviceType.DEVICE_TYPE_M800);
 
 		int think = (int) (DensityUtil.dip2px(mActivity, 1) * 0.8);
 		final LineGraphView main_graph = new LineGraphView(mActivity, "");
@@ -230,7 +231,8 @@ public class ReportFragment extends BaseFragment {
 		main_graph.setVerticalLabels(
 				new String[] { "", getString(R.string.wake_), getString(R.string.light_), getString(R.string.mid_), getString(R.string.deep_), "" });
 
-		main_graph.setBeginAndOffset(historyData.getSummary().getStartTime(), TimeUtil.getTimeZoneSecond(), 0);
+		SdkLog.log("setBeginAndOffset stime:" + historyData.getSummary().getStartTime());
+		main_graph.setBeginAndOffset(historyData.getSummary().getStartTime(), TimeUtil.getTimeZoneHour(), 0);
 		main_graph.setScalable(false);
 		main_graph.setScrollable(false);
 		main_graph.setShowLegend(false);
@@ -287,6 +289,7 @@ public class ReportFragment extends BaseFragment {
 		TextView tvOutTimes = (TextView) view.findViewById(R.id.tv_out_times);
 		TextView tvTemp = (TextView) view.findViewById(R.id.tv_temp);
 		TextView tvHumidity = (TextView) view.findViewById(R.id.tv_humidity);
+		TextView tvAlgorithmVersion = (TextView) view.findViewById(R.id.tv_algorithm_version);
 		
 		if (analysis != null) {
 			tvCollectDate.setText(dateFormat.format(new Date(historyData.getSummary().getStartTime() * 1000l)));
@@ -469,6 +472,7 @@ public class ReportFragment extends BaseFragment {
 			int[] humidityRange = getMinMaxValue(detail.getHumidity());
 			tvHumidity.setText(humidityRange[0] + "~" + humidityRange[1] + "%");
 		}
+		tvAlgorithmVersion.setText(historyData.getSummary().getArithmeticVer());
 
 		reportLayout.addView(view);
 
