@@ -1,7 +1,10 @@
 package com.sleepace.m800sdk.demo.fragment;
 
-import com.sleepace.sdk.interfs.IMonitorManager;
+import com.sleepace.m800sdk.demo.MainActivity;
+import com.sleepace.m800sdk.demo.R;
+import com.sleepace.m800sdk.demo.util.ActivityUtil;
 import com.sleepace.sdk.interfs.IResultCallback;
+import com.sleepace.sdk.m800.CallbackType;
 import com.sleepace.sdk.m800.M800Helper;
 import com.sleepace.sdk.m800.M800Manager.OnlineStateListener;
 import com.sleepace.sdk.m800.M800Manager.RealtimeDataListener;
@@ -15,9 +18,6 @@ import com.sleepace.sdk.m800.domain.RealTimeData;
 import com.sleepace.sdk.m800.domain.SleepState;
 import com.sleepace.sdk.manager.CallbackData;
 import com.sleepace.sdk.util.SdkLog;
-import com.sleepace.m800sdk.demo.MainActivity;
-import com.sleepace.m800sdk.demo.R;
-import com.sleepace.m800sdk.demo.util.ActivityUtil;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -248,7 +248,7 @@ public class DeviceFragment extends BaseFragment {
 							@Override
 							public void run() {
 								// TODO Auto-generated method stub
-								if(cd.getCallbackType() == IMonitorManager.METHOD_REALTIME_DATA_OPEN) {
+								if(cd.getCallbackType() == CallbackType.REALTIME_DATA_START) {
 									if(cd.isSuccess()) {
 										Toast.makeText(mActivity, R.string.get_success, Toast.LENGTH_SHORT).show();
 									}else {

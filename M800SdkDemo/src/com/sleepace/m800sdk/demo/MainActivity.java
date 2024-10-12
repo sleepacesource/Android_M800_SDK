@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
 	public static byte collectStatus = -100;
 	public static boolean deviceOnline = false;
 	public static int userId = 0;
-	public static String deviceId = "kyyppdclowrw9";
+	public static String deviceId = "ebv50fwmk2v1m";
 	public static short deviceType;
 	public static int num;
 	
