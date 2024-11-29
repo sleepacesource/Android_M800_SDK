@@ -137,12 +137,13 @@ public class ReportFragment extends BaseFragment {
 								Object obj = cd.getResult();
 								String str = gson.toJson(obj);
 								HistoryDataList dataList = gson.fromJson(str, HistoryDataList.class);
-								SdkLog.log(TAG+" getSleepReport analysis:" + dataList.getHistory().get(0).getAnalysis());
+								SdkLog.log(TAG+" getSleepReport str:" + str);
 								List<HistoryData> list = null;
 								if(dataList != null) {
 									list = dataList.getHistory();
 								}
 								if(list != null && list.size() > 0) {
+									SdkLog.log(TAG+" getSleepReport analysis:" + list.get(0).getAnalysis());
 									HistoryData historyData = list.get(0);
 									Analysis analysis = historyData.getAnalysis();
 									if(analysis.getReportFlag() == 1) {//长报告
@@ -289,6 +290,19 @@ public class ReportFragment extends BaseFragment {
 		TextView tvOutTimes = (TextView) view.findViewById(R.id.tv_out_times);
 		TextView tvTemp = (TextView) view.findViewById(R.id.tv_temp);
 		TextView tvHumidity = (TextView) view.findViewById(R.id.tv_humidity);
+		TextView hrv_avg = (TextView) view.findViewById(R.id.hrv_avg);
+		TextView hrv_status = (TextView) view.findViewById(R.id.hrv_status);
+		TextView hrv_avg30 = (TextView) view.findViewById(R.id.hrv_avg30);
+		TextView hrv_base = (TextView) view.findViewById(R.id.hrv_base);
+		TextView ahi = (TextView) view.findViewById(R.id.ahi);
+		TextView breath_stop_duration = (TextView) view.findViewById(R.id.breath_stop_duration);
+		TextView breath_stop_total = (TextView) view.findViewById(R.id.breath_stop_total);
+		TextView central_stop_duration = (TextView) view.findViewById(R.id.central_stop_duration);
+		TextView central_stop_total = (TextView) view.findViewById(R.id.central_stop_total);
+		TextView central_stop_longest = (TextView) view.findViewById(R.id.central_stop_longest);
+		TextView breath_block_duration = (TextView) view.findViewById(R.id.breath_block_duration);
+		TextView breath_block_total = (TextView) view.findViewById(R.id.breath_block_total);
+		TextView breath_block_longest = (TextView) view.findViewById(R.id.breath_block_longest);
 		TextView tvAlgorithmVersion = (TextView) view.findViewById(R.id.tv_algorithm_version);
 		
 		if (analysis != null) {
@@ -462,6 +476,7 @@ public class ReportFragment extends BaseFragment {
 			tvLightSleepPer.setText(analysis.getLightSleepPerc() + "%");
 			tvWakeSleepPer.setText(analysis.getWakeSleepPerc() + "%");
 			tvWakeTimes.setText(analysis.getWakeTimes() + getString(R.string.unit_times));
+
 			tvTurnTimes.setText(analysis.getTrunOverTimes() + getString(R.string.unit_times));
 			tvBodyTimes.setText(analysis.getBodyMovementTimes() + getString(R.string.unit_times));
 			tvOutTimes.setText(analysis.getLeaveBedTimes() + getString(R.string.unit_times));
@@ -471,6 +486,96 @@ public class ReportFragment extends BaseFragment {
 			tvTemp.setText(tempRange[0] + "~" + tempRange[1] + "℃");
 			int[] humidityRange = getMinMaxValue(detail.getHumidity());
 			tvHumidity.setText(humidityRange[0] + "~" + humidityRange[1] + "%");
+			
+
+			SdkLog.log(TAG+" hrv_avg.setText:" + analysis.getHrvRmssd());
+			hrv_avg.setText(analysis.getHrvRmssd() + "ms");
+			String hrvStatusText = "";
+			switch(analysis.getHrvStress()) {
+				case 0: hrvStatusText = "压力过载";break;
+				case 1: hrvStatusText = "注意压力";break;
+				case 2: hrvStatusText = "状态正常";break;
+				case 3: hrvStatusText = "状态优秀";break;
+			}
+			hrv_status.setText(hrvStatusText);
+			hrv_avg30.setText(analysis.getHrvRmssdMean() + "ms");
+			hrv_base.setText(analysis.getHrvRmssdMin() + "~" + analysis.getHrvRmssdMax() + "ms");
+			ahi.setText(analysis.getAhIndex() + "次/时");
+			
+
+			String ahiArrayStr = analysis.getAhiArrayStr();
+			String[] stringArray = ahiArrayStr.substring(1, ahiArrayStr.length() - 1).split(",");
+			int[] intArray = new int[stringArray.length];
+			for (int i = 0; i < stringArray.length; i++) {
+			    intArray[i] = Integer.parseInt(stringArray[i].trim());
+			}
+			int startHour = (intArray[0] & 0xFF00) >> 8;
+			int startMinute = intArray[0] & 0x00FF;
+			int endHour = (intArray[1] & 0xFF00) >> 8;
+			int endMinute = intArray[1] & 0x00FF;;
+			SdkLog.log(TAG+" intArray:" + intArray[0]);
+			SdkLog.log(TAG+" startHour:" + startHour);
+			SdkLog.log(TAG+" startMinute:" + startMinute);
+			SdkLog.log(TAG+" endHour:" + endHour);
+			SdkLog.log(TAG+" endMinute:" + endMinute);
+			
+			String startHourTemp = startHour > 10 ? String.valueOf(startHour) : "0" + (startHour);
+			String startMinuteTemp = startMinute > 10 ? String.valueOf(startMinute) : "0" + startMinute;
+			String[] hourStep = new String[intArray[2]];
+			for (int i = 0; i < hourStep.length; i++) {
+				if (i == hourStep.length - 1) {
+					String endHourTemp = endHour > 10 ? String.valueOf(endHour) : "0" + endHour;
+					String endMinuteTemp = endMinute > 10 ? String.valueOf(endMinute) : "0" + endMinute;
+					hourStep[i] = startHourTemp + ":" + startMinuteTemp + "~" + endHourTemp + ":" + endMinuteTemp;
+				} else {
+					String endHourTemp = Integer.parseInt(startHourTemp) + 1 > 10 ? String.valueOf(Integer.parseInt(startHourTemp) + 1) : "0" + (Integer.parseInt(startHourTemp) + 1);
+					String endMinuteTemp = "00";
+					hourStep[i] = startHourTemp + ":" + startMinuteTemp + "~" + endHourTemp + ":" + endMinuteTemp;
+					
+					startHourTemp = endHourTemp;
+					startMinuteTemp = endMinuteTemp;
+				}
+
+				SdkLog.log(TAG+" hourStep arr:" + hourStep[i]);
+			}
+			int[] valueStep = new int[intArray[2]];
+			for (int i = 0; i < hourStep.length; i++) {
+				valueStep[i] = intArray[3 + i];
+				SdkLog.log(TAG+" valueStep i:" + i + "," + valueStep[i]);
+			}
+			
+
+			LinearLayout breath_stop_time = (LinearLayout) view.findViewById(R.id.breath_stop_time);
+			for (int i = 0; i < intArray[2]; i++) {
+			    TextView textView = new TextView(mActivity);
+			    textView.setLayoutParams(new LinearLayout.LayoutParams(
+			            LinearLayout.LayoutParams.WRAP_CONTENT,
+			            LinearLayout.LayoutParams.WRAP_CONTENT));
+			    textView.setTextColor(getResources().getColor(R.color.COLOR_3));
+//			    textView.setTextSize(getResources().getDimension(R.dimen.Title_4));
+			    textView.setText(hourStep[i] + "   " + valueStep[i] + "次");
+			    breath_stop_time.addView(textView);
+			}
+			
+			
+			
+			
+			
+			
+			int breathPauseTime = analysis.getBreathPauseAllTime();
+			int breathPauseMinutes = breathPauseTime / 60;
+			int breathPauseSeconds = breathPauseTime % 60;
+			String breathPauseText = breathPauseMinutes > 0 ? breathPauseMinutes + "分" + breathPauseSeconds + "秒" : breathPauseSeconds + "秒";
+			breath_stop_duration.setText(breathPauseText);
+			breath_stop_total.setText(analysis.getBreathPauseTimes() + "次");
+			
+			central_stop_duration.setText(analysis.getCsaDur() + "秒");
+			central_stop_total.setText(analysis.getCsaCnt() + "次");
+			central_stop_longest.setText(analysis.getCsaMaxDur() + "秒");
+			
+			breath_block_duration.setText(analysis.getOsaDur() + "秒");
+			breath_block_total.setText(analysis.getOsaCnt() + "次");
+			breath_block_longest.setText(analysis.getOsaMaxDur() + "秒");
 		}
 		tvAlgorithmVersion.setText(historyData.getSummary().getArithmeticVer());
 
@@ -659,6 +764,22 @@ public class ReportFragment extends BaseFragment {
 		analysis.setHeartRateStatusAry(heartRateStatusAry);
 		analysis.setLeftBedStatusAry(leftBedStatusAry);
 		analysis.setTurnOverStatusAry(turnOverStatusAry);
+		
+		analysis.setAhIndex(24);
+		analysis.setCsaDur(60);
+		analysis.setCsaCnt(5);
+		analysis.setCsaMaxDur(15);
+		analysis.setOsaDur(24);
+		analysis.setOsaCnt(2);
+		analysis.setOsaMaxDur(17);
+		analysis.setHrvRmssd(59);
+		analysis.setHrvRmssdMean(56);
+		analysis.setHrvRmssdMin(50);
+		analysis.setHrvRmssdMax(60);
+		analysis.setHrvStress(2);
+		analysis.setAhiArrayStr("[4638,5916,6,2,22,9,8,44,64]");
+		analysis.setBreathPauseAllTime(121);
+		analysis.setBreathPauseTimes(6);
 		
 		historyData.setAnalysis(analysis);
 		return historyData;

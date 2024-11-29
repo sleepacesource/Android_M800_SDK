@@ -235,6 +235,13 @@ containing a value of this type.
         public static final int transparent=0x7f020019;
     }
     public static final class id {
+        public static final int ahi=0x7f08004e;
+        public static final int breath_block_duration=0x7f080055;
+        public static final int breath_block_longest=0x7f080057;
+        public static final int breath_block_total=0x7f080056;
+        public static final int breath_stop_duration=0x7f080050;
+        public static final int breath_stop_time=0x7f08004f;
+        public static final int breath_stop_total=0x7f080051;
         public static final int btn_bind_device=0x7f080032;
         public static final int btn_connect=0x7f08002b;
         public static final int btn_device_version=0x7f080034;
@@ -253,12 +260,19 @@ containing a value of this type.
         public static final int btn_unbind_device=0x7f080033;
         public static final int btn_upgrade_device=0x7f08002e;
         public static final int center=0x7f080001;
+        public static final int central_stop_duration=0x7f080052;
+        public static final int central_stop_longest=0x7f080054;
+        public static final int central_stop_total=0x7f080053;
         public static final int content=0x7f080004;
         public static final int et_channel_id=0x7f08002a;
         public static final int et_device_id=0x7f08002c;
         public static final int et_device_version=0x7f08002d;
         public static final int et_server_address=0x7f080028;
         public static final int et_token=0x7f080029;
+        public static final int hrv_avg=0x7f08004a;
+        public static final int hrv_avg30=0x7f08004c;
+        public static final int hrv_base=0x7f08004d;
+        public static final int hrv_status=0x7f08004b;
         public static final int iv_back=0x7f080035;
         public static final int iv_icon=0x7f080009;
         public static final int layout_chart=0x7f080027;
@@ -275,7 +289,7 @@ containing a value of this type.
         public static final int scrollview=0x7f080011;
         public static final int tv_Body_times=0x7f080048;
         public static final int tv_Sober_proportion=0x7f080045;
-        public static final int tv_algorithm_version=0x7f08004a;
+        public static final int tv_algorithm_version=0x7f080058;
         public static final int tv_avg_breathrate=0x7f080040;
         public static final int tv_avg_heartrate=0x7f08003f;
         public static final int tv_breathrate=0x7f080016;
@@ -343,6 +357,7 @@ containing a value of this type.
         public static final int abnormal_breathing=0x7f09005e;
         public static final int actual_sleep_long=0x7f09005a;
         public static final int actual_sleep_short=0x7f09005b;
+        public static final int ahi=0x7f09008b;
         public static final int algorithm_version=0x7f090086;
         public static final int asleep=0x7f090020;
         public static final int asleep_point=0x7f090051;
@@ -351,7 +366,16 @@ containing a value of this type.
         public static final int bind_device=0x7f09002e;
         public static final int bind_device_success=0x7f090030;
         public static final int body_times=0x7f090045;
+        public static final int breath_block_duration=0x7f090092;
+        public static final int breath_block_longest=0x7f090094;
+        public static final int breath_block_total=0x7f090093;
+        public static final int breath_stop_duration=0x7f09008d;
+        public static final int breath_stop_time=0x7f09008c;
+        public static final int breath_stop_total=0x7f09008e;
         public static final int breathrate=0x7f090013;
+        public static final int central_stop_duration=0x7f09008f;
+        public static final int central_stop_longest=0x7f090091;
+        public static final int central_stop_total=0x7f090090;
         public static final int close_acquisition_success=0x7f090028;
         public static final int collection_date=0x7f090036;
         public static final int connect_device=0x7f090006;
@@ -391,6 +415,10 @@ containing a value of this type.
         public static final int hint_device_version=0x7f09000a;
         public static final int hint_server_address=0x7f090003;
         public static final int hint_token=0x7f090004;
+        public static final int hrv_avg=0x7f090087;
+        public static final int hrv_avg30=0x7f090089;
+        public static final int hrv_base=0x7f09008a;
+        public static final int hrv_status=0x7f090088;
         public static final int humidity=0x7f090015;
         public static final int imitate_data_long=0x7f09001e;
         public static final int imitate_data_short=0x7f09001d;

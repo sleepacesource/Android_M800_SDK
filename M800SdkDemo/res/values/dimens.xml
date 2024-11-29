@@ -29,7 +29,7 @@
 
     <dimen name="report_item_height">50dp</dimen>
     <dimen name="btn_height">40dp</dimen>
-    <dimen name="data_fragment_label_width">90dp</dimen>
+    <dimen name="data_fragment_label_width">140dp</dimen>
 
     <item type="id" name="tv_log"/>
     
